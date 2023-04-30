@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +8,7 @@ import "./home.css";
 import { loginSuccess } from "../../redux/authSlice";
 
 
-const HomePage = () => {
+function HomePage() {
   const user = useSelector((state) => state.auth.login?.currentUser);
   const userList = useSelector((state) => state.users.users?.allUsers);
   const msg = useSelector((state) => state.users?.msg);
@@ -21,6 +22,7 @@ const HomePage = () => {
       deleteUser(user?.accessToken, dispatch , id, axiosJWT);
     };
 
+  /* eslint-disable */
   useEffect(() => {
     if (!user) {
       navigate("/login");
