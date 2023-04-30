@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import jwt_decode from "jwt-decode";
 import { deleteUser, getAllUsers } from "../../redux/apiRequest";
 import { createAxios } from "../../createInstance";
-import axios from "axios";
 import "./home.css";
 import { loginSuccess } from "../../redux/authSlice";
 
