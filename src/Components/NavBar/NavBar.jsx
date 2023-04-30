@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import "./navbar.css";
 import { logOut } from "../../redux/apiRequest";
-import axios from "axios";
 import { createAxios } from "../../createInstance";
 import { logOutSuccess } from "../../redux/authSlice";
 const NavBar = () => {
