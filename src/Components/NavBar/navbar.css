@@ -1,9 +1,17 @@
 .navbar-container{
+    z-index: 10;
     display: flex;
     padding: 1rem 1.5rem;
     justify-content: flex-end;
     background-color: rgb(228, 228, 228);
     align-items: center;
+    box-shadow: 0 0 8px grey;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    /* margin-bottom: 50px; */
+
 }
 .navbar-container > *{
     margin: 0 1.25rem;

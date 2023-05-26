@@ -1,15 +1,16 @@
 .home-container{
     display: flex;
     background-color: rgb(236, 235, 235);
-    height:600px;
-    width:60%;
+    height:auto;
+    width:50%;
     text-align: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 3rem;
+    margin-top: 120px;
 }
+
 .home-title{
-    margin-top: 1rem;
+    margin-top: 50px;
     font-size: 1.5rem;
     font-weight: 700;
 }
@@ -20,30 +21,39 @@
     align-items: center;
 }
 .home-user{
-    margin: 1.5rem;
+    margin: 20px 60px 60px 60px;
     background-color: rgb(194, 194, 194);
-    padding:0.5rem;
-    border-radius: 12px;
+    /* padding:0.5rem; */
+    border-radius: 5px;
+    text-align:center;
+    /* width: 90%; */
+    /* float: left; */
+    /* display: flex; */
+    justify-content: center;
 }
 .home-role{
-    margin-top: 1rem;
+    margin: 1rem 0;
     font-size: 1.25rem;
 }
 
-.user-container{
+.post-container{
     display: flex;
     width: 200px;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.delete-user{
+.delete-post{
+    /* margin-top: 150px;
+    margin-right: 15px; */
     cursor: pointer;
     font-size: 1rem;
-    background-color: rgb(240, 34, 96);
-    padding:0.35rem;
+    background-color: red;
+    /* padding:0.35rem; */
     border-radius: 12px;
     color:white;
+    width: 4%;
+    float: right;
 }
 .delete-user:hover{
     background-color:rgb(207, 18, 75) ;
@@ -54,4 +64,32 @@
 .errorMsg{
     margin-top: 3rem;
     font-size: 1.5rem;
+}
+.post-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+    padding-bottom: 20px;
+    border-radius: 12px;
+    height: auto;
+    min-width: 20%;
+    width: 70%;
+    background-color: rgb(218, 218, 218);
+}
+.post-img{
+    width: 100%;
+    border-radius: 3px;
+    /* margin-left: 15px; */
+}
+.post-description{
+    margin: 10px;
+    text-align: left;
+}
+.post-username{
+    background-color: aqua;
+}
+.post-title{
+    margin-top: 20px;
 }

@@ -19,6 +19,9 @@ const NavBar = () => {
   return (
     <nav className="navbar-container">
       <Link to="/" className="navbar-home"> Home </Link>
+      <Link to="/chat" className="navbar-home"> Chat </Link>
+      <Link to="/profile" className="navbar-home"> Profile </Link>
+      <Link to="/followers" className="navbar-home"> Follow </Link>
       {user? (
         <>
         <p className="navbar-user">Hi, <span> {user.username}  </span> </p>

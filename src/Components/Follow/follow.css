@@ -1,0 +1,35 @@
+.follow-container{
+    height:auto;
+    width:60%; 
+    text-align: center; 
+    margin-top: 120px;
+}
+.followings{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    float: left;
+    width: 48%;
+    background-color: rgb(236, 235, 235);
+    border-radius: 5px;
+    box-shadow: 0 0 8px grey;
+}
+.followers{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    float: right;
+    width: 48%;
+    background-color: rgb(236, 235, 235);
+    border-radius: 5px;
+    box-shadow: 0 0 8px grey;
+}
+.follow-title{
+    box-shadow: 0 0 8px grey;
+    margin-bottom: 15px;
+    padding: 5px;
+    border-radius: 15px;
+}
+.follow-userlist{
+    text-align: left;
+}

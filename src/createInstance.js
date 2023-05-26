@@ -11,9 +11,11 @@ const refreshToken = async () => {
     console.log(err);
   }
 };
-
+    
 export const createAxios = (user, dispatch, stateSuccess) => {
-  const newInstance = axios.create();
+  const newInstance = axios.create({
+    baseURL: "http://localhost:8000/"
+  });
   newInstance.interceptors.request.use(
     async (config) => {
       let date = new Date();
