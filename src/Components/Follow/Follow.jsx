@@ -6,32 +6,7 @@ const Follow = () => {
   const userFollowers = useSelector((state) => state.auth.login?.currentUser.followers);
   const userFollowings = useSelector((state) => state.auth.login?.currentUser.followings);
 
-  // const userData = [
-  //   {
-  //     username: "anhduy1202",
-  //   },
-  //   {
-  //     username: "kelly1234",
-  //   },
-  //   {
-  //     username: "danny5678",
-  //   },
-  //   {
-  //     username: "kenny1122",
-  //   },
-  //   {
-  //     username: "jack1234",
-  //   },
-  //   {
-  //     username: "loi1202",
-  //   },
-  //   {
-  //     username: "nhinhi2009",
-  //   },
-  //   {
-  //     username: "kellynguyen1122",
-  //   },
-  // ]
+
     return (
       <main className="follow-container">
         <div className="followings">

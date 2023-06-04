@@ -1,0 +1,15 @@
+.icon-img{
+    width: 25px;
+    height: 25px;
+}
+
+.icon-button{
+    margin-left: 100px;
+    border-radius: 50%;
+    background-color: pink;
+}
+
+.icon-button:hover{
+    opacity: 0.8;
+    background-color: #877777 ;
+}

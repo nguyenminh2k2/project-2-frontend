@@ -77,7 +77,7 @@ function HomePage() {
   }
 
   return (
-    <main className="home-container">
+    <div className="home-container">
       
       {/* <div className="home-role">
         {`Your role: ${user?.isAdmin ? `Admin` : `User`}`}
@@ -136,7 +136,7 @@ function HomePage() {
           );
         })}
       </div>
-    </main>
+    </div>
   );
 };
 

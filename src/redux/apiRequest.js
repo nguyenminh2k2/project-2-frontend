@@ -39,6 +39,8 @@ import {
     // interactPostSuccess,
   } from "./postSlice";
 
+const API = axios.create({ baseURL: "http://localhost:8000" });
+
   //AUTH
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
@@ -81,7 +83,16 @@ export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
     dispatch(logOutFailed());
   }
 };
+
 //USER
+/**
+ * Get A User
+ */
+export const getUser = (userId) => API.get(`v1/user/${userId}`);
+
+/**
+ * Get All User
+ */
 export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
   dispatch(getUsersStart());
   try {
@@ -94,6 +105,9 @@ export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
   }
 };
 
+/**
+ * Delete User
+ */
 export const deleteUser = async (accessToken, dispatch, id, axiosJWT ) => {
   dispatch(deleteUserStart());
   try {
@@ -168,3 +182,4 @@ export const imageUpload = async (fileModel, accessToken, axiosJWT ) => {
     headers: { token: `Bearer ${accessToken}` },
   });
 };
+

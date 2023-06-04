@@ -19,11 +19,11 @@ const NavBar = () => {
   return (
     <nav className="navbar-container">
       <Link to="/" className="navbar-home"> Home </Link>
+       {user? (
+        <>
       <Link to="/chat" className="navbar-home"> Chat </Link>
       <Link to="/profile" className="navbar-home"> Profile </Link>
-      <Link to="/followers" className="navbar-home"> Follow </Link>
-      {user? (
-        <>
+      <Link to="/followers" className="navbar-home"> Follow </Link>   
         <p className="navbar-user">Hi, <span> {user.username}  </span> </p>
         <Link to="/logout" className="navbar-logout" onClick={handleLogout}> Log out</Link>
         </>

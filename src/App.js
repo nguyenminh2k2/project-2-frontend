@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import NavBar from "./Components/NavBar/NavBar";
+import Chat from "./Components/Chat/Chat";
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
       <div className="App"> 
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/chat" element={<HomePage />} />
+          <Route path="/chat" element={<Chat />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/followers" element={<Follow />} />
           <Route path="/login" element={ <Login />} />
