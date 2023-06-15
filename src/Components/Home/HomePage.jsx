@@ -12,11 +12,9 @@ function HomePage() {
   const user = useSelector((state) => state.auth.login?.currentUser);
   const postList = useSelector((state) => state.post.allPosts?.posts) ;
 
-  // const msg = useSelector((state) => state.users?.msg);
   const [title,setTitle] = useState("");
   const [description,setDescription] = useState("");
   const [image,setImage] = useState("");
-  // const [imageUrl, setImageUrl] = useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // let axiosJWT = axios.create();
@@ -30,21 +28,10 @@ function HomePage() {
     };
     createPost(newPost, user?.accessToken, dispatch, navigate); 
   };
-
-  // const handleFileChange = (event) => {
-  //   const file = event.target.files[0];
-  //   const imageUrl = URL.createObjectURL(file);
-  //   setImageUrl(imageUrl);
-  // };
-  //  useEffect(() => {
-  //   return () => {
-  //     imageUrl && URL.revokeObjectURL(imageUrl);
-  //   }
-  // }, [imageUrl]);
  
-   const handleDelete = (id) => {
+  const handleDelete = (id) => {
     deletePost(user?.accessToken, dispatch , id, axiosJWT);
-    };
+  };
 
   /* eslint-disable */
   useEffect(() => {
@@ -78,12 +65,8 @@ function HomePage() {
 
   return (
     <div className="home-container">
-      
-      {/* <div className="home-role">
-        {`Your role: ${user?.isAdmin ? `Admin` : `User`}`}
-      </div> */}
       <section className="post-container">
-              <div className="post-title"> Create post </div>
+          <div className="post-title"> Create post </div>
             <form onSubmit={handleCreatePost}>
                 <label>Title</label>
                 <input 
@@ -101,14 +84,6 @@ function HomePage() {
                     onChange={(e)=>handleChangeImage(e)}
                 />
                 {image && <img src={image} height={100} width={150}/>}
-                {/* <div>
-                  <input type="file" onChange={handleFileChange} />
-                  {imageUrl && (
-                    <div>
-                      <img src={imageUrl} alt="Uploaded Image" width="100px" />
-                    </div>
-                  )}
-                </div> */}
                 <button type="submit"> Create Post </button>
             </form>
       </section>
@@ -116,9 +91,7 @@ function HomePage() {
       <div className="home-postlist">
         {postList?.map((post) => {
           return (
-            <div key={post._id} className="user-container">
-             
-                
+            <div key={post._id} className="user-container">    
                 <div className="home-user">
                   <h2 className="post-username">{post.username}</h2>
                   <h3 className="post-title">{post.title}</h3>
@@ -129,9 +102,6 @@ function HomePage() {
                  X{" "} 
               </div>
                 </div>
-             
-              
-              
             </div>
           );
         })}

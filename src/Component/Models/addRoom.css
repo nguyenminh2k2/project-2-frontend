@@ -13,3 +13,7 @@
     opacity: 0.8;
     background-color: #877777 ;
 }
+
+.ant-select-selector {
+    width: 150px;
+}

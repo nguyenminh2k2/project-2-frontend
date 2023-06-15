@@ -1,0 +1,44 @@
+.fa-person-circle-pluss{
+    margin-top: 10px;
+    color: #000;
+    float: right;
+    background-color: thistle;
+}
+.ant-form-item.css-dev-only-do-not-override-k7429z {
+    margin-bottom: 1px;
+}
+button.button-add {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    margin-right: 240px;
+    padding: 7px 20px 7px 10px;
+}
+button.button-add:hover {
+    background-color: rgb(203, 219, 234);
+}
+i.fa-plus {
+    color: #999;
+    font-size: 16px;
+}
+button.button-add:hover i.fa-plus{
+    color: rgb(18, 149, 243);
+}
+button.button-remove {
+    margin-top: 0px;
+    margin-bottom: 5px;
+    background-color: #fff;
+    margin-right: 230px;
+    padding: 7px 10px;
+}
+i.eraser{
+    color: #999;
+    font-size: 16px;
+}
+
+button.button-remove:hover{
+    background-color: #f0dbdf;
+}
+button.button-remove:hover i.eraser{
+    color: crimson;
+}

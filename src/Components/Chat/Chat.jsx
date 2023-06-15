@@ -4,7 +4,7 @@ import { useSelector} from "react-redux";
 import { userChats } from "../../redux/chatRequest";
 import Conversation from "../../Component/Conversation/Conversation";
 import ChatBox from "../../Component/ChatBox/ChatBox";
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 import AddRoom from "../../Component/Models/AddRoom";
 
 const Chat = () => {
@@ -34,7 +34,7 @@ const Chat = () => {
 
       // Connect to Socket.io
       useEffect(() => {
-        socket.current = io("ws://localhost:8800");
+        socket.current = io("http://localhost:8800");
         socket.current.emit("new-user-add", user._id);
         socket.current.on("get-users", (users) => {
           setOnlineUsers(users);
@@ -53,12 +53,11 @@ const Chat = () => {
               console.log(data)
               setReceivedMessage(data);
             }
-
             );
           }, []);
 
     const checkOnlineStatus = (chat) => {
-      const chatMember = chat.members.find((member) => member !== user._id);
+      const chatMember = chat?.members.find((member) => member !== user._id);
       const online = onlineUsers.find((user) => user.userId === chatMember);
       return online ? true : false;
     };
@@ -78,7 +77,7 @@ const Chat = () => {
                   
                   <div className="Chat-list"> 
                     {chats.map((chat) =>(
-                      <div  onClick={() => {
+                      <div key={chat._id} onClick={() => {
                         setCurrentChat(chat);
                       }}>
                         <Conversation 

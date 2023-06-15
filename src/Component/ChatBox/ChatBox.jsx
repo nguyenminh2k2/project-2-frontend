@@ -1,18 +1,47 @@
 import React, { useEffect, useRef, useState } from "react";
-import { getUser } from "../../redux/apiRequest";
+import { getAllUsers, getUser } from "../../redux/apiRequest";
 import { addMessage, getMessages } from "../../redux/MessageRequest";
 import "./chatbox.css";
-
 import { format } from "timeago.js";
 import InputEmoji from "react-input-emoji";
+import { useDispatch, useSelector } from "react-redux";
+import { createAxios } from "../../createInstance";
+import { loginSuccess } from "../../redux/authSlice";
+import ChatMembersView from "../ChatMembersView/ChatMembersView";
+import AddMembers from "../AddMembers/AddMembers";
 
 const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) => {
+    const user = useSelector((state) => state.auth.login?.currentUser);
+    // const userList = useSelector((state) => state.users.users?.allUsers);
+    // const [showMembers, setShowMembers] = useState(false);
     const [userData, setUserData] = useState(null);
     const [chatData, setChatData] = useState({});
     const [messages, setMessages] = useState([]);
     const [newMessage, setNewMessage] = useState("");
+    const dispatch = useDispatch();
+    let axiosJWT = createAxios(user, dispatch, loginSuccess);
 
+    // const getUserName = (senderId) => {
+    //     const users = userList.find((user) => user._id === senderId);
+        
+    //     if(users){
+    //         return user.username;
+    //     }else{
+    //         return null;
+    //     }
+    // }
+    // const users = userList.filter((user) => user._id === chatData?.members);
+    // console.log(users)
+    // console.log(getUserName(chatData))
+    // // console.log(messages.id)
+    // // console.log(chatData?.members)
 
+  /* eslint-disable */
+    useEffect(() => {
+        if (user?.accessToken) {
+          getAllUsers(user?.accessToken, dispatch, axiosJWT);
+        }
+      }, []);
 //  fetching data for header
     useEffect(() => {
         if(chat?.members.length <= 2){
@@ -34,7 +63,6 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
         }
         // console.log(chat?.members)
     },[chat, currentUser])
-    
 //  fetching data for messages
     useEffect(() => {
         const fetchMessages = async () => {
@@ -66,6 +94,7 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
       text: newMessage,
       chatId: chat._id,
     }
+    // const receiverId = chat.members.find((id)=>id!==currentUser);
     const receiverId = chat.members.find((id)=>id!==currentUser);
     // send message to socket server
     setSendMessage({...message, receiverId});
@@ -144,11 +173,11 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
           return null;
         }
     };
-
+    
     const scroll = useRef();
 
     return(
-        <>
+        <> 
         <div className="Chatbox-container">
             {chat? (
                 <>
@@ -156,6 +185,12 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
                 <div className="chat-header">
                     <div className="follower">
                         <div>
+                            <ChatMembersView
+                                chat = {chat}
+                            />
+                            <AddMembers
+                                chat = {chat}
+                            />
                             {online && <div className="online-dot"></div>}
                             { chat?.members.length <= 2 ? renderUserPhoto() : renderChatPhoto()}
                             <div className="Name" style={{fontSize: '0.8rem'}}>
@@ -165,10 +200,13 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
                                   renderChatNames()
                                 )}
                             </div>
+                            
                         </div>
+                        
                         <hr style={{ width: "85%", border: "0.1px solid #ececec" }} />
                     </div>
                 </div>
+                
                 {/* chat-body */}
                 <div className="chat-body">
                     {messages.map((message) => (
@@ -185,7 +223,7 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
                         </div>
                         </>
                     ))}
-                    </div>
+                </div>
                 {/* chat-sender */}
                 <div className="chat-sender">
                     <div>+</div>
