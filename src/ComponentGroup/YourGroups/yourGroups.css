@@ -1,0 +1,13 @@
+.list-groups {
+    display: flex;
+    margin: 10px 0 0 0;
+    padding: 25px 0 10px 0;
+    border-radius: 5px;
+}
+.list-groups:hover{
+    background: #80808038;
+    cursor: pointer;
+}
+.list-name{
+    padding: 0 0 0 20px;
+}

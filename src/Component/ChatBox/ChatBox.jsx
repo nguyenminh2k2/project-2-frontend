@@ -61,8 +61,9 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
         }else{
             setChatData(chat);
         }
-        // console.log(chat?.members)
+       
     },[chat, currentUser])
+
 //  fetching data for messages
     useEffect(() => {
         const fetchMessages = async () => {

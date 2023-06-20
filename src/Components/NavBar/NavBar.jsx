@@ -23,7 +23,7 @@ const NavBar = () => {
         <>
       <Link to="/chat" className="navbar-home"> Chat </Link>
       <Link to="/profile" className="navbar-home"> Profile </Link>
-      <Link to="/followers" className="navbar-home"> Follow </Link>   
+      <Link to="/group" className="navbar-home"> Group </Link>   
         <p className="navbar-user">Hi, <span> {user.username}  </span> </p>
         <Link to="/logout" className="navbar-logout" onClick={handleLogout}> Log out</Link>
         </>

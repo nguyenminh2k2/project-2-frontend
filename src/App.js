@@ -7,6 +7,7 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import NavBar from "./Components/NavBar/NavBar";
 import Chat from "./Components/Chat/Chat";
+import Group from "./Components/Group/Group";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/group" element={<Group />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/followers" element={<Follow />} />
           <Route path="/login" element={ <Login />} />
