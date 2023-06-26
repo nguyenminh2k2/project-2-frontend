@@ -29,6 +29,30 @@ export const getMembers = async (groupId) => {
     }
 };
 
+export const leaveGroup = async (groupId, accessToken, navigate) => {
+    try{
+        await axios.put(`http://localhost:8000/v1/group/leave/${groupId}`, groupId,{
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        navigate("/group");
+    }catch(err){
+        console.log(err)
+    }
+};
+
+export const joinGroup = async (groupId, accessToken, navigate) => {
+    try{
+        await axios.put(`http://localhost:8000/v1/group/join/${groupId}`, groupId,{
+            headers: { token: `Bearer ${accessToken}` },
+        });
+        navigate("/group");
+    }catch(err){
+        console.log(err)
+    }
+};
+
+
+
 export const createGroup = async (group, accessToken, navigate, setVisible) =>{
     try{
         await axios.post("http://localhost:8000/v1/group/", group, {

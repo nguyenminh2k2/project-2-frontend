@@ -62,7 +62,9 @@ const Group = () => {
                                     </div>
                                 ))
                             : 
-                                <ListGroups/>
+                                <ListGroups
+                                    data = {groups}
+                                />
                             }
                         </div>
                     </div>

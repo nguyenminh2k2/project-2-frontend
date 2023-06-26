@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { deletePost, /*, getAllUsers,*/ getAllPosts, createPost, imageUpload} from "../../redux/apiRequest";
@@ -11,7 +11,8 @@ import { loginSuccess } from "../../redux/authSlice";
 function HomePage() {
   const user = useSelector((state) => state.auth.login?.currentUser);
   const postList = useSelector((state) => state.post.allPosts?.posts) ;
-
+  const formRef = useRef();
+  const [showForm, setShowForm] = useState(false);
   const [title,setTitle] = useState("");
   const [description,setDescription] = useState("");
   const [image,setImage] = useState("");
@@ -27,11 +28,33 @@ function HomePage() {
       image:image
     };
     createPost(newPost, user?.accessToken, dispatch, navigate); 
+    setShowForm(false);
   };
  
   const handleDelete = (id) => {
     deletePost(user?.accessToken, dispatch , id, axiosJWT);
   };
+
+  const handleShowForm = () => {
+    setShowForm(true);
+  };
+
+  const handleHideForm = () => {
+      setShowForm(false);
+  };
+
+  const handleFormClick = (e) => {
+      e.stopPropagation();
+  };
+
+  useEffect(() => {
+    const handleClickOutsideForm = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        setShowForm(false);
+      }
+    };
+    handleClickOutsideForm();
+  }, []);
 
   /* eslint-disable */
   useEffect(() => {
@@ -63,30 +86,45 @@ function HomePage() {
     file && reader.readAsDataURL(file);
   }
 
+
   return (
     <div className="home-container">
-      <section className="post-container">
-          <div className="post-title"> Create post </div>
-            <form onSubmit={handleCreatePost}>
-                <label>Title</label>
-                <input 
-                    type="text" 
-                    onChange={(e)=>setTitle(e.target.value)}
-                />
-                <label>Description</label>
-                <input 
-                    type="text" 
-                    onChange={(e)=>setDescription(e.target.value)}
-                />
-                <label>Image</label>
-                <input 
-                    type="file" 
-                    onChange={(e)=>handleChangeImage(e)}
-                />
-                {image && <img src={image} height={100} width={150}/>}
-                <button type="submit"> Create Post </button>
-            </form>
-      </section>
+        <section>
+            <div className="Input-headers" onClick={handleShowForm}>
+                <img src={user?.profilePicture} alt="" style={{width: "50px"}} className="Image-Inputs"/>
+                <input type="button" value="" className="Input-Contents" />
+                <p className="button-labels">What's on your mind...?</p>
+                <hr style={{ width: "90%", border: "0.1px solid #ececec" }} />
+                <div className="icon-photos">
+                  <i className="fa-solid fa-photo-film fa-xl"></i>
+                  <p>Photo/Videos</p>
+                </div>
+                <div className="icon-faces">
+                  <i className="fa-solid fa-face-grin-wide fa-xl"></i>
+                  <p>Feeling/activity</p>
+                </div>
+                
+            </div>
+            {showForm && (
+                <div className="overlay" onClick={handleHideForm}>
+                <div className="form-container" ref={formRef} onClick={handleFormClick}>
+                    <form onSubmit={handleCreatePost}>
+                    <label>Title</label>
+                    <input type="text" onChange={(e) => setTitle(e.target.value)} />
+                    <label>Description</label>
+                    <input
+                        type="text"
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                    <label>Image</label>
+                    <input type="file" onChange={(e) => handleChangeImage(e)} />
+                    {image && <img src={image} alt="" height={100} width={150} />}
+                    <button type="submit">Create Post</button>
+                    </form>
+                </div>
+                </div>
+            )}
+        </section>
       <div className="home-title">Post List</div>
       <div className="home-postlist">
         {postList?.map((post) => {
