@@ -1,3 +1,8 @@
 .members-group{
     margin: 20px;
 }
+.List-member-name{
+    margin-left: 15px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}

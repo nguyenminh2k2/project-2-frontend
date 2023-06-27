@@ -29,14 +29,31 @@ export const getMembers = async (groupId) => {
     }
 };
 
+export const removerMember = async (groupId, group, accessToken, navigate, setIsModalOpen) => {
+    try{
+      await axios.put(`http://localhost:8000/v1/group/remove/${groupId}`, group, {
+        headers: { token: `Bearer ${accessToken}` },
+      });
+      navigate("/group");
+      alert("remove members successfully");
+      setIsModalOpen(false);
+    }catch(err){
+      console.log(err);
+      alert("You aren't admin");
+      setIsModalOpen(false);
+    }
+};
+
 export const leaveGroup = async (groupId, accessToken, navigate) => {
     try{
         await axios.put(`http://localhost:8000/v1/group/leave/${groupId}`, groupId,{
             headers: { token: `Bearer ${accessToken}` },
         });
         navigate("/group");
+        alert("Leave group successfully !");
     }catch(err){
-        console.log(err)
+        console.log(err);
+        alert("You are no longer in this group");
     }
 };
 
@@ -47,7 +64,8 @@ export const joinGroup = async (groupId, accessToken, navigate) => {
         });
         navigate("/group");
     }catch(err){
-        console.log(err)
+        console.log(err);
+        
     }
 };
 

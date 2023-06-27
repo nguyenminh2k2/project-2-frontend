@@ -1,21 +1,15 @@
 import "./profile.css";
-// import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {Link, useNavigate/*, useParams*/ } from "react-router-dom";
-import {/* getAllPosts,*/ getUserPost} from "../../redux/apiRequest";
-// import { createAxios } from "../../createInstance";
+import {Link, useNavigate} from "react-router-dom";
+import {getUserPost} from "../../redux/apiRequest";
 
 function Profile({ accessToken, userId }) {
   const user = useSelector((state) => state.auth.login?.currentUser);
-  // const postList = useSelector((state) => state.post.allPosts?.posts) ;
   const userPost = useSelector((state) => state.post.userPost?.posts) ;
-  // const  {_id}  = useParams();
-  // console.log(user._id);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // let axiosJWT = axios.create();
 
   function countFollowings(){
     let cnt = 0;
@@ -38,15 +32,8 @@ function Profile({ accessToken, userId }) {
     }
     if (user?.accessToken) {
       getUserPost(user?.accessToken, dispatch , user._id);
-      // getAllPosts(user?.accessToken, dispatch , axiosJWT);
-
-
     }
   }, []);
-
-  // useEffect(() => {
-  //   dispatch(getUserPost(accessToken, userId));
-  // }, [accessToken, dispatch, userId]);
 
   return (
     <main className="profile-container">
