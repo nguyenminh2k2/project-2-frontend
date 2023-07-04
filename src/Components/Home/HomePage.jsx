@@ -2,23 +2,27 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { deletePost, /*, getAllUsers,*/ getAllPosts, createPost, imageUpload} from "../../redux/apiRequest";
+import { deletePost, getAllUsers, getAllPosts, createPost, imageUpload} from "../../redux/apiRequest";
 import { createAxios } from "../../createInstance";
 import "./home.css";
 import { loginSuccess } from "../../redux/authSlice";
+import LeftHome from "../../ComponentHomePage/LeftHome/LeftHome";
+import RightHome from "../../ComponentHomePage/RightHome/RightHome";
 
 
 function HomePage() {
-  const user = useSelector((state) => state.auth.login?.currentUser);
-  const postList = useSelector((state) => state.post.allPosts?.posts) ;
   const formRef = useRef();
+  const user = useSelector((state) => state.auth.login?.currentUser);
+  const userList = useSelector((state) => state.users.users?.allUsers);// mảng chứa tát cả các thành viên
+  const postList = useSelector((state) => state.post.allPosts?.posts) ;
+
   const [showForm, setShowForm] = useState(false);
   const [title,setTitle] = useState("");
   const [description,setDescription] = useState("");
   const [image,setImage] = useState("");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // let axiosJWT = axios.create();
   let axiosJWT = createAxios(user, dispatch, loginSuccess);
 
   const handleCreatePost= (e)=>{
@@ -63,6 +67,7 @@ function HomePage() {
     }
     if (user?.accessToken) {
       getAllPosts(user?.accessToken, dispatch , axiosJWT);
+      getAllUsers(user?.accessToken, dispatch, axiosJWT);
     }
   }, []);
 
@@ -88,18 +93,28 @@ function HomePage() {
 
 
   return (
-    <div className="home-container">
+    <div className="HomePage">
+
+      {/* Left Side */}
+      <div className="Home-side-left">
+        <LeftHome
+          user = {user}
+        />
+      </div>
+
+      {/* Body Side */}
+      <div className="home-container">
         <section>
-            <div className="Input-headers" onClick={handleShowForm}>
-                <img src={user?.profilePicture} alt="" style={{width: "50px"}} className="Image-Inputs"/>
-                <input type="button" value="" className="Input-Contents" />
+            <div className="Input-header" onClick={handleShowForm}>
+                <img src={user?.profilePicture} alt="" style={{width: "50px"}} className="Image-Input"/>
+                <input type="button" value="" className="Input-Content" />
                 <p className="button-labels">What's on your mind...?</p>
                 <hr style={{ width: "90%", border: "0.1px solid #ececec" }} />
-                <div className="icon-photos">
+                <div className="icon-photo">
                   <i className="fa-solid fa-photo-film fa-xl"></i>
                   <p>Photo/Videos</p>
                 </div>
-                <div className="icon-faces">
+                <div className="icon-face">
                   <i className="fa-solid fa-face-grin-wide fa-xl"></i>
                   <p>Feeling/activity</p>
                 </div>
@@ -144,7 +159,17 @@ function HomePage() {
           );
         })}
       </div>
+      </div>
+
+      {/* Right Side */}
+      <div className="Group-side-right">
+        <RightHome
+          userList = {userList}
+          user = {user}
+        />
+      </div>
     </div>
+
   );
 };
 

@@ -28,20 +28,16 @@ import {
     getAllPostFailed,
     getAllPostStart,
     getAllPostSuccess,
-    // getOnePostFailed,
-    // getOnePostStart,
-    // getOnePostSuccess,
     getUserPostFailed,
     getUserPostStart,
     getUserPostSuccess,
-    // interactPostFailed,
-    // interactPostStart,
-    // interactPostSuccess,
   } from "./postSlice";
 
 const API = axios.create({ baseURL: "http://localhost:8000" });
 
-  //AUTH
+/**
+ * AUTH
+ */
 export const loginUser = async (user, dispatch, navigate) => {
     dispatch(loginStart());
     try {
@@ -84,15 +80,11 @@ export const logOut = async (dispatch, id, navigate, accessToken, axiosJWT) => {
   }
 };
 
-//USER
 /**
- * Get A User
+ * USER
  */
 export const getUser = (userId) => API.get(`v1/user/${userId}`);
 
-/**
- * Get All User
- */
 export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
   dispatch(getUsersStart());
   try {
@@ -105,9 +97,6 @@ export const getAllUsers = async (accessToken, dispatch, axiosJWT) => {
   }
 };
 
-/**
- * Delete User
- */
 export const deleteUser = async (accessToken, dispatch, id, axiosJWT ) => {
   dispatch(deleteUserStart());
   try {
@@ -120,7 +109,29 @@ export const deleteUser = async (accessToken, dispatch, id, axiosJWT ) => {
   }
 };
 
-//POST
+export const getFollowers = async (userId, accessToken) => {
+  try{
+    return await axios.get(`http://localhost:8000/v1/user/followers/${userId}`, {
+      headers: { token: `Bearer ${accessToken}` },
+    })
+  }catch(err){
+    console.log(err);
+  }
+};
+
+export const getFollowings = async (userId, accessToken) => {
+  try{
+    return await axios.get(`http://localhost:8000/v1/user/followings/${userId}`, {
+      headers: { token: `Bearer ${accessToken}` },
+    })
+  }catch(err){
+    console.log(err);
+  }
+};
+
+/** 
+ * POST
+ */
 export const getAllPosts = async (accessToken, dispatch, axiosJWT) => {
   dispatch(getAllPostStart());
   try {
