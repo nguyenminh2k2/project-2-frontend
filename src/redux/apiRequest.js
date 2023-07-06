@@ -109,6 +109,17 @@ export const deleteUser = async (accessToken, dispatch, id, axiosJWT ) => {
   }
 };
 
+export const follow = async (userId, accessToken, navigate) => {
+  try{
+    return await axios.put(`http://localhost:8000/v1/user/${userId}/follow`, userId, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+    
+  }catch(err){
+    console.log(err);
+  }
+};
+
 export const getFollowers = async (userId, accessToken) => {
   try{
     return await axios.get(`http://localhost:8000/v1/user/followers/${userId}`, {

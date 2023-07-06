@@ -44,7 +44,7 @@ const ProfileUser = () => {
         if (users?.accessToken) {
           getUserPost(users?.accessToken, dispatch , user?._id);
         }
-    }, []);
+    }, [users, user]);
     return (  
         <main className="profile-container">
         <div className="header-profile">            
