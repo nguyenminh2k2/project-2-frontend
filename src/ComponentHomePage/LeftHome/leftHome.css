@@ -42,4 +42,10 @@
     display: flex;
     justify-content: center;
 }
+.block{
+    display: block;
+}
+.none{
+    display: none;
+}
   

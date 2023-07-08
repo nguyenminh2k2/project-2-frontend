@@ -7,21 +7,21 @@ const RightHome = ({userList, user}) => {
    
     const [followings, setFollowings] = useState([]);
     // const [followers, setFollowers] = useState([]);
-    const [currentUser, setCurrenetUser] = useState(null);
     // const navigate = useNavigate();
-    // console.log(currentUser?._id)
 
-    const handlefollow = () => {
-        follow(currentUser?._id, user?.accessToken)
+    const handlefollow = async(id) => {
+        await follow(id, user?.accessToken);
+        const response = await getFollowings(user?._id, user?.accessToken);
+        setFollowings(response?.data?.followings);
     }
     
     useEffect(() => {
         const fetchFollowings = async () => {
-            const response = await getFollowings(user._id, user.accessToken);
-            setFollowings(response.data.followings);  
+            const response = await getFollowings(user?._id, user?.accessToken);
+            setFollowings(response?.data?.followings);  
         }
         fetchFollowings();
-    }, [user._id, user.accessToken]);
+    }, [user?._id, user?.accessToken]);
 
     // useEffect(() => {
     //     const fetchFollowers = async () => {
@@ -31,8 +31,8 @@ const RightHome = ({userList, user}) => {
     //     fetchFollowers();
     // }, [user._id, user.accessToken]); 
     
-    const otherUserName = userList?.filter((followings) => followings._id !== user._id); 
-    const otherUsers = otherUserName?.filter((user) => !followings.find((member) => member._id === user._id)); 
+    const otherUserName = userList?.filter((followings) => followings._id !== user?._id); 
+    const otherUsers = otherUserName?.filter((user) => !followings?.find((member) => member._id === user._id)); 
    
     // const otherFollowings = otherUsers?.filter((user) => !followers.find((member) => member._id === user._id)); 
 
@@ -60,9 +60,8 @@ const RightHome = ({userList, user}) => {
                             </Link>
                             <button 
                                 onClick={() => {
-                                    setCurrenetUser(user);
                                     if (otherUsers?.includes(user)) {
-                                        handlefollow();
+                                        handlefollow(user?._id);
                                     }
                                 }}
                                 style={{ display: otherUsers?.includes(user) ? "block" : "none" }}

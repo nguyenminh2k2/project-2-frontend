@@ -9,34 +9,39 @@ const LeftHome = ({user}) => {
 
     useEffect(() => {
         const fetchFollowings = async () => {
-            const response = await getFollowings(user._id, user.accessToken);
-            setFollowings(response.data.followings);  
+            const response = await getFollowings(user?._id, user?.accessToken);
+            setFollowings(response?.data?.followings);  
         }
         fetchFollowings();
-    }, [user._id, user.accessToken]);
+    }, [user?._id, user?.accessToken]);
 
     useEffect(() => {
         const fetchFollowers = async () => {
-            const response = await getFollowers(user._id, user.accessToken);
-            setFollowers(response.data.followers);  
+            const response = await getFollowers(user?._id, user?.accessToken);
+            setFollowers(response?.data?.followers);  
         }
         fetchFollowers();
-    }, [user._id, user.accessToken]);
+    }, [user?._id, user?.accessToken]);
 
     function countFollowings(){
         let cnt = 0;
-        for(let i = 0 ; i < followings.length; i++){
+        for(let i = 0 ; i < followings?.length; i++){
           cnt ++;
         }
         return cnt;
     }
     function countFollowers(){
         let cnt = 0;
-        for(let i = 0 ; i < followers.length; i++){
+        for(let i = 0 ; i < followers?.length; i++){
           cnt ++;
         }
         return cnt;
     }
+
+    const otherUsers = followers?.filter((user) => !followings?.find((member) => member._id === user._id)); 
+
+    console.log(otherUsers)
+
     return (  
         <div className='Group-container' style={{paddingTop: "20px"}}>
             <div className='Left-Home-Header' style={{}}>
@@ -45,7 +50,7 @@ const LeftHome = ({user}) => {
                     style={{  top: 0, left: 0, width: "100%",height: "140px", borderRadius: "20px 20px 0 0" }}
                 />
                 <img 
-                    src={user.profilePicture} alt="" 
+                    src={user?.profilePicture} alt="" 
                     style={{
                             width: "100px", height: "100px", zIndex: 1000,
                             position: "absolute",
@@ -56,7 +61,7 @@ const LeftHome = ({user}) => {
                     className='Image-followings'
                 />
                 <p style={{fontWeight: "bold"}} className="style_username">
-                    {user.username}
+                    {user?.username}
                 </p>
                 <div className="Cout-Follows">
                     <div className="followings-count">
@@ -98,6 +103,40 @@ const LeftHome = ({user}) => {
                                         border: "1.5px solid #ececec"
                                     }}>
                                     Đang Follow
+                                </button>
+                            </div>
+                            <hr style={{ width: "95%", border: "0.1px solid #ececec" }} />
+                        </div>
+                    )
+                })}
+            </div>
+            <div>
+                {(followers?.length > 0) ? (
+                    <h4 style={{marginBottom: "20px"}}>
+                        Followers
+                    </h4>                    
+                ) : (
+                    <div></div>
+                )}
+
+                {followers?.map((following) => {
+                    return (
+                        <div>
+                            <div style={{display: "flex", alignItems: "center", margin: "15px 0"}}>
+                                <img 
+                                    src={following.profilePicture} alt="" 
+                                    style={{width: "40px"}}
+                                    className='Image-followings'
+                                />
+                                <p style={{fontWeight: "bold",paddingLeft: 15}}>
+                                    {following.username}
+                                </p>
+                                <button style={{marginLeft: "auto", marginTop: 0, color: "#fff", backgroundColor: "#FE2C55", 
+                                            border: "1.5px solid #ececec"
+                                        }}
+                                        className={(otherUsers?.includes(following)) ? "block" : "none"}
+                                >
+                                    Follow lại
                                 </button>
                             </div>
                             <hr style={{ width: "95%", border: "0.1px solid #ececec" }} />

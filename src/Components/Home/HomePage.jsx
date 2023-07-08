@@ -33,10 +33,12 @@ function HomePage() {
     };
     createPost(newPost, user?.accessToken, dispatch, navigate); 
     setShowForm(false);
+    getAllPosts(user?.accessToken, dispatch , axiosJWT);
   };
  
   const handleDelete = (id) => {
     deletePost(user?.accessToken, dispatch , id, axiosJWT);
+    getAllPosts(user?.accessToken, dispatch , axiosJWT);
   };
 
   const handleShowForm = () => {

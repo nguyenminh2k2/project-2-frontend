@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createPost } from "../../redux/groupRequest";
+import { createPost, getAllPosts } from "../../redux/groupRequest";
 import "./createPost.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { createAxios } from "../../createInstance";
 import { loginSuccess } from "../../redux/authSlice";
 import { imageUpload } from "../../redux/apiRequest";
 
-const CreatePost = ({group}) => {
+const CreatePost = ({group, posts}) => {
     const  user  = useSelector((state) => state.auth.login?.currentUser);
     // console.log(group)
     const formRef = useRef();
@@ -15,11 +15,12 @@ const CreatePost = ({group}) => {
     const [title,setTitle] = useState("");
     const [description,setDescription] = useState("");
     const [image,setImage] = useState("");
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // let axiosJWT = axios.create();
     let axiosJWT = createAxios(user, dispatch, loginSuccess);
-  
+    
     const handleCreatePost= (e)=>{
       e?.preventDefault(); 
       const newPost = {
@@ -29,6 +30,7 @@ const CreatePost = ({group}) => {
       };
       createPost(newPost, user?.accessToken,group?._id, navigate); 
       setShowForm(false);
+      getAllPosts(group?._id ,user?.accessToken ,posts);
     };
 
     function handleChangeImage(e) {

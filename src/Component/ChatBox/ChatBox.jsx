@@ -12,8 +12,6 @@ import AddMembers from "../AddMembers/AddMembers";
 
 const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) => {
     const user = useSelector((state) => state.auth.login?.currentUser);
-    // const userList = useSelector((state) => state.users.users?.allUsers);
-    // const [showMembers, setShowMembers] = useState(false);
     const [userData, setUserData] = useState(null);
     const [chatData, setChatData] = useState({});
     const [messages, setMessages] = useState([]);
@@ -21,20 +19,6 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
     const dispatch = useDispatch();
     let axiosJWT = createAxios(user, dispatch, loginSuccess);
 
-    // const getUserName = (senderId) => {
-    //     const users = userList.find((user) => user._id === senderId);
-        
-    //     if(users){
-    //         return user.username;
-    //     }else{
-    //         return null;
-    //     }
-    // }
-    // const users = userList.filter((user) => user._id === chatData?.members);
-    // console.log(users)
-    // console.log(getUserName(chatData))
-    // // console.log(messages.id)
-    // // console.log(chatData?.members)
 
   /* eslint-disable */
     useEffect(() => {
@@ -42,6 +26,7 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
           getAllUsers(user?.accessToken, dispatch, axiosJWT);
         }
       }, []);
+
 //  fetching data for header
     useEffect(() => {
         if(chat?.members.length <= 2){
@@ -115,7 +100,7 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
     /* eslint-disable */
     useEffect(()=> {
         // console.log("Message Arrived: ", receivedMessage);
-        if (receivedMessage !== null && receivedMessage.chatId === chat._id) {
+        if (receivedMessage !== null && receivedMessage.chatId === chat?._id) {
             setMessages([...messages, receivedMessage]);
         }
     
@@ -201,29 +186,53 @@ const ChatBox = ({ chat, currentUser, online,setSendMessage, receivedMessage }) 
                                   renderChatNames()
                                 )}
                             </div>
-                            
                         </div>
-                        
                         <hr style={{ width: "85%", border: "0.1px solid #ececec" }} />
                     </div>
                 </div>
                 
                 {/* chat-body */}
                 <div className="chat-body">
-                    {messages.map((message) => (
-                        <>
-                        <div ref={scroll}
-                            className={
-                            message.senderId === currentUser
-                                ? "message own"
-                                : "message"
-                            }
-                        >
-                            <span>{message.text}</span>{" "}
-                            <span>{format(message.createdAt)}</span>
+                {messages.map((message) => (
+                    <>
+                        {message.senderId === currentUser ? (
+                        <div ref={scroll} className="message own">
+                            <span>{message.text}</span> <span>{format(message.createdAt)}</span>
                         </div>
+                        ) : (
+                        <>
+                            {chat?.members.length > 2 ? (
+                            <div style={{ display: "flex" }}>
+                                <img
+                                src={message.senderProfile}
+                                alt=""
+                                style={{
+                                    width: "50px",
+                                    height: "50px",
+                                    borderRadius: "50%",
+                                    marginTop: "30px",
+                                    marginRight: "10px",
+                                }}
+                                />
+                                <div style={{ display: "block" }}>
+                                <i style={{ fontSize: "15px", marginLeft: "5px", fontWeight: "bold" }}>
+                                    {message.senderName}
+                                </i>
+                                <div ref={scroll} className="message">
+                                    <span>{message.text}</span> <span>{format(message.createdAt)}</span>
+                                </div>
+                                </div>
+                            </div>
+                            ) : (
+                                <div ref={scroll} className="message">
+                                    <span>{message.text}</span> <span>{format(message.createdAt)}</span>
+                                </div>
+                            )}
                         </>
+                        )}
+                    </>
                     ))}
+
                 </div>
                 {/* chat-sender */}
                 <div className="chat-sender">

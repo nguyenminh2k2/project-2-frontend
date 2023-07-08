@@ -29,7 +29,7 @@
 .List-Followings button{
     margin-left: auto;
     margin-top: 0;
-    background-color: rgb(204, 28, 104);
+    background-color: #FE2C55;
 }
 .List-Followings button:hover{
     opacity: 0.9;

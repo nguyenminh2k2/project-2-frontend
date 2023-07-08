@@ -33,6 +33,8 @@ const AddRoom = () => {
             members: members
         };
         createChatRoom(newChatRoom, user?.accessToken, navigate, setVisible)
+        window.location.reload();
+
     }
 
     const handleOk = () => {

@@ -11,7 +11,7 @@ const PostGroup = ({group}) => {
 
     useEffect(() => {
         getAllPosts(group?._id ,user?.accessToken ,setPosts);
-    }, [group?._id, user?.accessToken]);
+    }, [group?._id, user?.accessToken, posts]);
     // console.log(group)
     
     return (  
@@ -20,6 +20,7 @@ const PostGroup = ({group}) => {
                 {group ? (
                     <CreatePost
                         group = {group}
+                        posts = {setPosts}
                     />
                 ) : (
                     <span className="chatbox-empty-messages">

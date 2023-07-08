@@ -11,3 +11,8 @@
 .list-name{
     padding: 0 0 0 20px;
 }
+
+.list-groups.selected {
+    color: red;
+  }
+  

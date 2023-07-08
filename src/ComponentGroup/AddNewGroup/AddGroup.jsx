@@ -6,7 +6,7 @@ import { loginSuccess } from "../../redux/authSlice";
 import { useEffect, useState } from "react";
 import "./addGroup.css";
 import { getAllUsers } from "../../redux/apiRequest";
-import { createGroup } from "../../redux/groupRequest";
+import { createGroup, } from "../../redux/groupRequest";
 
 const AddGroup = () => {
     const user = useSelector((state) => state.auth.login?.currentUser);
@@ -18,7 +18,7 @@ const AddGroup = () => {
     const [visible, setVisible] = useState(false);
     const [name, setName] = useState("");
     const [members, setMembers] = useState([]);
-    const [type, setType] = useState(true)
+    const [type, setType] = useState(true);
 
       /* eslint-disable */
     useEffect(() => {
@@ -34,10 +34,11 @@ const AddGroup = () => {
             members: members,
             type: type
         };
-        createGroup(newGroup, user?.accessToken, navigate, setVisible)
+        createGroup(newGroup, user?.accessToken, navigate, setVisible);
+        window.location.reload();
     }
 
-    const handleOk = () => {
+    const handleOk = async () => {
         handleCreateGroup();
     }
 

@@ -29,6 +29,14 @@ export const getMembers = async (groupId) => {
     }
 };
 
+export const getPendingMembers = async (groupId) => {
+    try{
+        return await axios.get(`http://localhost:8000/v1/group/pendingMembers/${groupId}`);
+    }catch(err){
+        console.log(err)
+    }
+};
+
 export const removerMember = async (groupId, group, accessToken, navigate, setIsModalOpen) => {
     try{
       await axios.put(`http://localhost:8000/v1/group/remove/${groupId}`, group, {
@@ -63,13 +71,34 @@ export const joinGroup = async (groupId, accessToken, navigate) => {
             headers: { token: `Bearer ${accessToken}` },
         });
         navigate("/group");
+        alert("Join group successfully !")
     }catch(err){
         console.log(err);
-        
+        alert("You have already sent a request to join this group")
     }
 };
 
+export const acceptMembers = async (groupId, requestId, accessToken) => {
+    try {
+        await axios.put(`http://localhost:8000/v1/group/accept/${groupId}/${requestId}`, requestId,{
+            headers: { token: `Bearer ${accessToken}` },
+        }); 
+        alert("Accept Members Successfully");       
+    } catch (error) {
+        console.log(error)
+    }
+}
 
+export const refuseMembers = async (groupId, requestId, accessToken) => {
+    try {
+        await axios.put(`http://localhost:8000/v1/group/refuse/${groupId}/${requestId}`, requestId,{
+            headers: { token: `Bearer ${accessToken}` },
+        }); 
+        alert("refuse Members Successfully");       
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const createGroup = async (group, accessToken, navigate, setVisible) =>{
     try{
@@ -94,6 +123,7 @@ export const getAllPosts = async (groupId, accessToken, setPosts) => {
             headers: { token: `Bearer ${accessToken}` },
         });
         setPosts(res.data.results);
+        // console.log(res.data)
     }
     catch(err){
         console.log(err)

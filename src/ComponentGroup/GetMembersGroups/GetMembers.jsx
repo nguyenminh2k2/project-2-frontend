@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getMembers, leaveGroup, removerMember } from "../../redux/groupRequest";
+import { acceptMembers, getMembers, getPendingMembers, leaveGroup, refuseMembers, removerMember } from "../../redux/groupRequest";
 import { Form, Modal, Select } from 'antd';
 import "./getMembers.css"
 import { useNavigate } from "react-router-dom";
@@ -10,32 +10,70 @@ const GetMembers = ({group}) => {
     const { Option } = Select;
     const [members, setMembers] = useState([]);
     const [membersToRemove, setMembersToRemove] = useState([]);
+    const [pendingMember, setPendingMember] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
     const handleLeaveGroup = (groupId) => {
-      leaveGroup(groupId, user?.accessToken, navigate)
+      leaveGroup(groupId, user?.accessToken, navigate);
+      window.location.reload();
     }
+
+    const handleAccept = async (groupId, requestId) => {
+      await acceptMembers(groupId, requestId, user?.accessToken);
+
+      // Sau khi xóa thành công, gọi lại API để lấy danh sách thành viên mới
+      const response = await getMembers(group?._id);
+      setMembers(response.data.members);
+
+      const res = await getPendingMembers(group?._id);
+      setPendingMember(res?.data?.members);
+    }
+
+    const handleRefuse = async (groupId, requestId) => {
+      await refuseMembers(groupId, requestId, user?.accessToken);
+
+      const res = await getPendingMembers(group?._id);
+      setPendingMember(res?.data?.members);
+    }
+
     useEffect(() => {
         const fetchMembers = async () => {
           try {
             const response = await getMembers(group?._id);
-            setMembers(response.data.members);
+            setMembers(response?.data?.members);
           } catch (error) {
             console.log(error);
           }
         };
         fetchMembers();
         
-    }, [ group?._id]);
+    }, [ group?._id, membersToRemove]);
 
-    const handleRemoveMembers = (groupId) => {
-      const addMembers = {
-          membersToRemove: membersToRemove
+    useEffect(() => {
+      const fetchMembers = async () => {
+        try {
+          const response = await getPendingMembers(group?._id);
+          setPendingMember(response?.data?.members);
+        } catch (error) {
+          console.log(error);
+        }
       };
-      removerMember(groupId, addMembers, user?.accessToken, navigate, setIsModalOpen);
-    }
+      fetchMembers();
+      
+  }, [ group?._id]);
 
+    const handleRemoveMembers = async (groupId) => {
+      const Members = {
+        membersToRemove: membersToRemove
+      };
+      await removerMember(groupId, Members, user?.accessToken, navigate, setIsModalOpen);
+      
+      // Sau khi xóa thành công, gọi lại API để lấy danh sách thành viên mới
+      const response = await getMembers(group?._id);
+      setMembers(response.data.members);
+    }
+    
     const openModal = () => {
       setIsModalOpen(true);
     };
@@ -49,7 +87,17 @@ const GetMembers = ({group}) => {
         <div>
             <div className="members-group">
             {group? (
-              <h3 className="List-member-name" onClick={openModal}>Danh sách thành viên:</h3>
+              <div>
+                <div style={{display:"flex", alignItems:"center", padding:"0 0 15px 5px"}}>
+                  <img src="https://banner2.cleanpng.com/20180710/ibf/kisspng-computer-icons-house-real-estate-home-universal-studios-icon-5b44a215a05c67.5280732815312245976568.jpg" alt="" 
+                       style={{width:"50px", borderRadius:"50%"}}
+                  />
+                  <h1 style={{marginLeft: "5px"}}>{group?.name}</h1>
+                </div>
+                <hr style={{ width: "90%", border: "0.1px solid #ececec" , marginBottom:"15px"}} />
+                <h3 className="List-member-name" onClick={openModal}>Danh sách thành viên:</h3>
+              </div>
+              
             ) : (
               <div></div>
             )}
@@ -59,13 +107,35 @@ const GetMembers = ({group}) => {
                     <div className='list-members'>{member.username}</div>
                 </div>
             ))}
-            {group? (
-              <button className='button-leave' onClick={() => handleLeaveGroup(group._id)}>
-                <i className="fa-solid fa-arrow-up-from-bracket fa-rotate-90"></i>
-                <p className="leave">Leave</p>
-            </button>
+
+            <hr style={{ width: "90%", border: "0.1px solid #ececec" , marginBottom:"15px", marginTop:"15px"}} />
+
+            {(group?.createId === user?._id) ? (
+              <div>
+                <h3 className="List-member-name">Danh sách cần duyệt:</h3>
+                {pendingMember?.map((member) => (
+                  <div key = {member._id} style={{display:"flex"}}>
+                      <div className='list-members'>{member.username}</div>
+                      <i class='fa fa-check' style={{marginLeft:"auto", color:"green", marginRight:"5px", cursor:"pointer"}}
+                        onClick={() => handleAccept(group?._id, member?._id)}
+                      ></i>
+                      <i class='fa-solid fa-xmark' style={{color:"red", cursor:"pointer"}}
+                        onClick={() => handleRefuse(group?._id, member?._id)}
+                      ></i>
+                  </div>
+                ))}                
+              </div>
             ) : (
-              <div></div>
+              <div>
+                {group? (
+                  <button className='button-leave' onClick={() => handleLeaveGroup(group._id)}>
+                    <i className="fa-solid fa-arrow-up-from-bracket fa-rotate-90"></i>
+                    <p className="leave">Leave</p>
+                </button>
+                ) : (
+                  <div></div>
+                )}                
+              </div>
             )}
 
             <Modal
