@@ -4,7 +4,16 @@ import axios from 'axios'
 const API = axios.create({ baseURL: 'http://localhost:8000' });
 
 // create chat 1-1
-export const createChat = (data) => API.post('/v1/chat/', data);
+export const createChat = async (memberId2, accessToken, navigate) => {
+  try {
+    await axios.post(`http://localhost:8000/v1/chat/${memberId2}`, memberId2, {
+      headers: { token: `Bearer ${accessToken}` },
+    });
+    navigate("/chat");
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // create chat group
 export const createChatRoom = async ( chat, accessToken, navigate, setVisible) => {

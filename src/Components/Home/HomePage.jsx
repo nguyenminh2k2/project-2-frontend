@@ -93,7 +93,6 @@ function HomePage() {
     file && reader.readAsDataURL(file);
   }
 
-
   return (
     <div className="HomePage">
 

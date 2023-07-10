@@ -13,6 +13,8 @@ const RightHome = ({userList, user}) => {
         await follow(id, user?.accessToken);
         const response = await getFollowings(user?._id, user?.accessToken);
         setFollowings(response?.data?.followings);
+
+        // window.location.reload();
     }
     
     useEffect(() => {
@@ -64,7 +66,7 @@ const RightHome = ({userList, user}) => {
                                         handlefollow(user?._id);
                                     }
                                 }}
-                                style={{ display: otherUsers?.includes(user) ? "block" : "none" }}
+                                style={{ display: otherUsers?.includes(user) ? "none" : "none" }}
                             >
                                 Follow
                             </button> 

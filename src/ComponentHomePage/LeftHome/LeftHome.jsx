@@ -1,7 +1,7 @@
 import "./leftHome.css";
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getFollowers, getFollowings } from "../../redux/apiRequest";
+import { follow, getFollowers, getFollowings } from "../../redux/apiRequest";
 
 const LeftHome = ({user}) => {
     const [followings, setFollowings] = useState([]);
@@ -22,6 +22,18 @@ const LeftHome = ({user}) => {
         }
         fetchFollowers();
     }, [user?._id, user?.accessToken]);
+
+    const handlefollow = async (id) => {
+        await follow(id, user?.accessToken);
+
+        const response = await getFollowings(user?._id, user?.accessToken);
+        setFollowings(response?.data?.followings);
+
+        const res = await getFollowers(user?._id, user?.accessToken);
+        setFollowers(res?.data?.followers);
+
+        // window.location.reload();
+    }
 
     function countFollowings(){
         let cnt = 0;
@@ -101,7 +113,9 @@ const LeftHome = ({user}) => {
                                 </p>
                                 <button style={{marginLeft: "auto", marginTop: 0, color: "#7a7878", backgroundColor: "#fff", 
                                         border: "1.5px solid #ececec"
-                                    }}>
+                                    }}
+                                    onClick={() => handlefollow(following._id)}
+                                    >
                                     Đang Follow
                                 </button>
                             </div>
@@ -135,6 +149,7 @@ const LeftHome = ({user}) => {
                                             border: "1.5px solid #ececec"
                                         }}
                                         className={(otherUsers?.includes(following)) ? "block" : "none"}
+                                        onClick={() => handlefollow(following._id)}
                                 >
                                     Follow lại
                                 </button>

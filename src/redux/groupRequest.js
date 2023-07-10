@@ -71,7 +71,7 @@ export const joinGroup = async (groupId, accessToken, navigate) => {
             headers: { token: `Bearer ${accessToken}` },
         });
         navigate("/group");
-        alert("Join group successfully !")
+        alert("Your request has been recorded")
     }catch(err){
         console.log(err);
         alert("You have already sent a request to join this group")
