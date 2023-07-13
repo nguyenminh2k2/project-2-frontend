@@ -52,7 +52,7 @@ const LeftHome = ({user}) => {
 
     const otherUsers = followers?.filter((user) => !followings?.find((member) => member._id === user._id)); 
 
-    console.log(otherUsers)
+    // console.log(otherUsers)
 
     return (  
         <div className='Group-container' style={{paddingTop: "20px"}}>

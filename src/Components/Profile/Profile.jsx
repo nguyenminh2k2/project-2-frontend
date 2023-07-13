@@ -1,8 +1,8 @@
 import "./profile.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {Link, useNavigate} from "react-router-dom";
-import {getUserPost} from "../../redux/apiRequest";
+import {getFollowers, getFollowings, getUserPost} from "../../redux/apiRequest";
 
 function Profile({ accessToken, userId }) {
   const user = useSelector((state) => state.auth.login?.currentUser);
@@ -11,16 +11,35 @@ function Profile({ accessToken, userId }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [followings, setFollowings] = useState([]);
+  const [followers, setFollowers] = useState([]);
+
+  useEffect(() => {
+      const fetchFollowings = async () => {
+          const response = await getFollowings(user?._id, user?.accessToken);
+          setFollowings(response?.data?.followings);  
+      }
+      fetchFollowings();
+  }, [user?._id, user?.accessToken]);
+
+  useEffect(() => {
+      const fetchFollowers = async () => {
+          const response = await getFollowers(user?._id, user?.accessToken);
+          setFollowers(response?.data?.followers);  
+      }
+      fetchFollowers();
+  }, [user?._id, user?.accessToken]);
+
   function countFollowings(){
     let cnt = 0;
-    for(let i = 0 ; i < user.followings.length; i++){
+    for(let i = 0 ; i < followings?.length; i++){
       cnt ++;
     }
     return cnt;
   }
   function countFollowers(){
     let cnt = 0;
-    for(let i = 0 ; i < user.followers.length; i++){
+    for(let i = 0 ; i < followers?.length; i++){
       cnt ++;
     }
     return cnt;

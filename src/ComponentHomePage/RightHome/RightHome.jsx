@@ -66,7 +66,7 @@ const RightHome = ({userList, user}) => {
                                         handlefollow(user?._id);
                                     }
                                 }}
-                                style={{ display: otherUsers?.includes(user) ? "none" : "none" }}
+                                style={{ display: otherUsers?.includes(user) ? "block" : "none" }}
                             >
                                 Follow
                             </button> 
