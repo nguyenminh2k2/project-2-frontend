@@ -50,7 +50,7 @@ function Profile({ accessToken, userId }) {
       navigate("/");
     }
     if (user?.accessToken) {
-      getUserPost(user?.accessToken, dispatch , user._id);
+      getUserPost(user?.accessToken, dispatch , user?._id);
     }
   }, []);
 
@@ -60,12 +60,12 @@ function Profile({ accessToken, userId }) {
         <div className = "image">
           <img src="https://znews-photo.zingcdn.me/w660/Uploaded/qoswae/2022_08_25/file_20200429_51457_ll2phm.jpg" alt="" 
             className="background"/>
-          <img src={user.profilePicture} alt="avatar" 
+          <img src={user?.profilePicture} alt="avatar" 
             className="avatar"/>
         </div>                  
         <div className="info">
-          <p>Name: {user.username}</p>    
-          <p>Email: {user.email}</p>
+          <p>Name: {user?.username}</p>    
+          <p>Email: {user?.email}</p>
           <p> {`Your role: ${user?.isAdmin ? `Admin` : `User`}`}</p>
           <Link className="a" to="/followers">Followings: {countFollowings()} {" | "} </Link>
           <Link className="a" to="/followers">Followers: {countFollowers()} </Link>

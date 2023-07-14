@@ -62,7 +62,7 @@ const LeftHome = ({user}) => {
                     style={{  top: 0, left: 0, width: "100%",height: "140px", borderRadius: "20px 20px 0 0" }}
                 />
                 <img 
-                    src={user?.profilePicture} alt="" 
+                    src={user?.profilePicture || "https://nhanvietluanvan.com/wp-content/uploads/2023/05/c6e56503cfdd87da299f72dc416023d4-736x620.jpg"} alt="" 
                     style={{
                             width: "100px", height: "100px", zIndex: 1000,
                             position: "absolute",

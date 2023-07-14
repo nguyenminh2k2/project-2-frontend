@@ -94,8 +94,9 @@ function HomePage() {
   }
 
   return (
+    <>
+    {user?.accessToken &&    
     <div className="HomePage">
-
       {/* Left Side */}
       <div className="Home-side-left">
         <LeftHome
@@ -170,6 +171,9 @@ function HomePage() {
         />
       </div>
     </div>
+    }
+    </>
+
 
   );
 };
